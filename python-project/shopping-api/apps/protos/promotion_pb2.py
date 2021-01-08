@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z\023promotion;promotion',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fpromotion.proto\x12\x08\x64iscount\"\x1a\n\x04User\x12\x12\n\ndate_birth\x18\x01 \x01(\x03\"%\n\x05Order\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.discount.User\"5\n\x08\x44iscount\x12\x12\n\npercentage\x18\x01 \x01(\x02\x12\x15\n\rdiscount_name\x18\x02 \x01(\t\"2\n\tDiscounts\x12%\n\tdiscounts\x18\x01 \x03(\x0b\x32\x12.discount.Discount2M\n\x0f\x44iscountService\x12:\n\x12\x41vailableDiscounts\x12\x0f.discount.Order\x1a\x13.discount.DiscountsB\x15Z\x13promotion;promotionb\x06proto3'
+  serialized_pb=b'\n\x0fpromotion.proto\x12\x08\x64iscount\"\x1a\n\x04User\x12\x12\n\ndate_birth\x18\x01 \x01(\t\"%\n\x05Order\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.discount.User\"5\n\x08\x44iscount\x12\x12\n\npercentage\x18\x01 \x01(\x02\x12\x15\n\rdiscount_name\x18\x02 \x01(\t\"2\n\tDiscounts\x12%\n\tdiscounts\x18\x01 \x03(\x0b\x32\x12.discount.Discount2M\n\x0f\x44iscountService\x12:\n\x12\x41vailableDiscounts\x12\x0f.discount.Order\x1a\x13.discount.DiscountsB\x15Z\x13promotion;promotionb\x06proto3'
 )
 
 
@@ -35,8 +35,8 @@ _USER = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='date_birth', full_name='discount.User.date_birth', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
