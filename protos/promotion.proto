@@ -4,7 +4,7 @@ package discount;
 option go_package = "promotion;promotion";
 
 message User {
-  int64 date_birth = 1;
+  string date_birth = 1;
 }
 
 message Order {
