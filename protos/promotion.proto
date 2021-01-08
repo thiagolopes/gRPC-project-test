@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-package order;
+package discount;
+option go_package = "protos;protos";
 
 message User {
   int64 date_birth = 1;
