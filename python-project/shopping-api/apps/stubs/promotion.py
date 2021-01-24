@@ -1,8 +1,10 @@
+from unittest.mock import Mock
+
+from django.conf import settings
+
 from apps.commons.stubs import BaseStub
 from apps.stubs.promotion_pb2 import Order, User
 from apps.stubs.promotion_pb2_grpc import DiscountServiceServicer, DiscountServiceStub
-
-from django.conf import settings
 
 
 class DiscountStub(BaseStub, DiscountServiceServicer):
@@ -13,8 +15,7 @@ class DiscountStub(BaseStub, DiscountServiceServicer):
         return self.client.AvailableDiscounts(order)
 
 
-if settings.DEBUG is False:
-    pass
-    # TODO instance here a channel with TLS
-
 discount_stub = DiscountStub()
+
+if settings.DEBUG is True:
+    discount_stub = DiscountStub(channel=Mock())
