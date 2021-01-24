@@ -1,5 +1,6 @@
 GOCMD=go
 GOMOD=$(GOCMD) mod
+GOGET=$(GOCMD) get
 GOBUILD=$(GOCMD) build
 BINARY_DIR=bin
 BIN_NAME=promotion
@@ -14,3 +15,25 @@ build: deps
 deps:
 	$(GOMOD) tidy
 	$(GOMOD) vendor
+
+tools:
+	$(GOGET) github.com/golang/protobuf/protoc-gen-go
+	$(GOGET) golang.org/x/tools/cmd/goimports
+	$(GOGET) github.com/kisielk/errcheck
+	$(GOGET) golang.org/x/lint/golint
+	$(GOGET) github.com/golang/protobuf
+
+errors:
+	errcheck -ignoretests -blank ./...
+
+lint:
+	golint ./...
+
+imports:
+	goimports -l -w .
+
+fmt:
+	go fmt ./...
+
+all:
+	imports fmt lint errors build
