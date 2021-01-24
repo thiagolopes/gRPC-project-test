@@ -1,3 +1,5 @@
+from functools import partial
+
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -20,5 +22,5 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.request.user.is_authenticated:
-            return self.serializer_class_authenticated
+            return partial(self.serializer_class_authenticated, context={"request": self.request})
         return self.serializer_class
