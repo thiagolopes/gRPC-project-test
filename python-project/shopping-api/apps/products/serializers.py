@@ -1,6 +1,8 @@
+from django.utils.functional import cached_property
 from rest_framework import serializers
 
 from apps.products.models import ProductModel
+from apps.stubs.promotion import discount_stub
 
 PRODUCT_FIELDS = (
     "id",
@@ -26,8 +28,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductDiscoutSerializer(serializers.ModelSerializer):
-    # discount = DiscountSerializer(default={"percentage": 0, "discount": 0}, read_only=True)
     discount = serializers.SerializerMethodField()
+    discount_stub_class = discount_stub
 
     class Meta:
         model = ProductModel
@@ -36,5 +38,13 @@ class ProductDiscoutSerializer(serializers.ModelSerializer):
             "id",
         ]
 
+    @cached_property
+    def promotions_avalibe(self):
+        date = self.context["request"].user.birth_date.isoformat()
+        return self.discount_stub_class.AvailableDiscounts(date)
+
     def get_discount(self, obj):
-        return {"percentage": 0, "discount": 0.0}
+        promotions = self.promotions_avalibe
+        discount = DiscountSerializer(data={})
+        discount.is_valid()
+        return discount.validated_data
