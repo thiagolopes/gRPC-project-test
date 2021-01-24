@@ -1,10 +1,10 @@
 proto-path = ./protos
 python-proto-output = ./python-project/shopping-api/apps/stubs
-go-proto-output = ./go-project
+go-proto-output = ./go-project/internal
 
 generate-promotion:
 	protoc -I=$(proto-path) \
- 	       --python_out=$(python-proto-output) \
+	       --python_out=$(python-proto-output) \
 	       --go_out=$(go-proto-output) \
                --go-grpc_out=$(go-proto-output) \
 	       --descriptor_set_out=$(proto-path)/promotion.protoset \
