@@ -29,6 +29,6 @@ func main() {
 	promotion.RegisterDiscountServiceServer(gRPCServer, &server)
 
 	if err := gRPCServer.Serve(listen); err != nil {
-		log.Fatalf("failed_to_serve: %s", err)
+		log.Fatalf("grpc_server_failed_to_serve: %s", err)
 	}
 }
