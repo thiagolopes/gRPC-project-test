@@ -105,3 +105,7 @@ LOGGING = {
         },
     },
 }
+
+# GRPC
+INSECURE_GRPC_HOST = config("INSECURE_GRPC_HOST")
+## add TSL CONFIG

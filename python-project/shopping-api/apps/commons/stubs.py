@@ -12,7 +12,7 @@ class BaseStub:
     def __init__(self, channel=None):
         if not channel:
             logger.info("insecure_channel_used, %s", type(self))
-            channel = grpc.insecure_channel("localhost:50051")
+            channel = grpc.insecure_channel(settings.INSECURE_GRPC_HOST)
 
         self.channel = channel
         self.client = self.stub_class(self.channel)
