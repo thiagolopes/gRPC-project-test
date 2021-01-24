@@ -1,4 +1,5 @@
 import uuid
+from unittest.mock import Mock
 
 import pytest
 
@@ -36,7 +37,9 @@ def test_product_serializer(product_data):
 
 
 def test_product_with_discount_serializer(product_data):
-    product_discount = ProductDiscoutSerializer(data=product_data)
+    stub_mock, request_mock = Mock(), Mock()
+    product_discount = ProductDiscoutSerializer(data=product_data, context={"request": request_mock})
+    product_discount.discount_stub_class = stub_mock
 
     assert product_discount.is_valid() is True
     assert product_discount.data == {
@@ -46,3 +49,5 @@ def test_product_with_discount_serializer(product_data):
         "currency": "BRL",
         "discount": {"percentage": 0, "discount": 0},
     }
+    request_mock.user.birth_date.isoformat.assert_called()
+    stub_mock.AvailableDiscounts.assert_called()
