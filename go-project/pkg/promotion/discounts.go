@@ -11,6 +11,7 @@ const (
 	BF_MOUTH               = "11"
 	BF_TIME_PARSE          = "01-02"
 	BF_PERCENTAGE_DISCOUNT = 0.10
+	USER_TIME_PARSE        = "2006-01-02"
 )
 
 type Promotions struct {
@@ -26,13 +27,13 @@ func BlackFridayPromotion(order Order) Discount {
 		return Discount{Description: "bf_date_parse_error"}
 	}
 
-	UserDate, err := time.Parse(BF_TIME_PARSE, string(order.User.Date))
+	UserDate, err := time.Parse(USER_TIME_PARSE, string(order.User.Date))
 	if err != nil {
-		fmt.Errorf("user_date_parse_error, user_date=%v, user_parse=%v, error=%v", order.User.Date)
+		fmt.Errorf("user_date_parse_error, user_date=%v, user_parse=%v, error=%v", order.User.Date, BF_TIME_PARSE, err)
 		return Discount{Description: "user_date_parse_error"}
 	}
 
-	if UserDate == BFDate {
+	if UserDate.Format(BF_TIME_PARSE) == BFDate.Format(BF_TIME_PARSE){
 		return Discount{
 			Percentage:  BF_PERCENTAGE_DISCOUNT,
 			Description: "Black friday day promotion",
