@@ -2,10 +2,10 @@ package promotion
 
 import (
 	"fmt"
+	"log"
 	"time"
 )
 
-// TODO add in settings
 const (
 	BF_DAY                        = "25"
 	BF_MOUTH                      = "11"
@@ -15,8 +15,10 @@ const (
 	USER_TIME_PARSE               = "2006-01-02"
 )
 
+type Promotionary func(Order) Discount
+
 type Promotions struct {
-	Promotion []func(Order) Discount
+	Promotion []Promotionary
 }
 
 func isEqual(t1, t2 time.Time, parse string) bool {
@@ -31,13 +33,13 @@ func isEqual(t1, t2 time.Time, parse string) bool {
 func BlackFridayPromotion(order Order) Discount {
 	BFDate, err := time.Parse(BF_TIME_PARSE, fmt.Sprint(BF_MOUTH, "-", BF_DAY))
 	if err != nil {
-		fmt.Errorf("bf_date_parse_error, bf_date=%v, bf_parse=%v, error=%v", fmt.Sprint(BF_MOUTH, "-", BF_DAY), BF_TIME_PARSE, err)
+		log.Printf("bf_date_parse_error, bf_date=%v, bf_parse=%v, error=%v", fmt.Sprint(BF_MOUTH, "-", BF_DAY), BF_TIME_PARSE, err)
 		return Discount{}
 	}
 
 	UserDate, err := time.Parse(USER_TIME_PARSE, string(order.User.Date))
 	if err != nil {
-		fmt.Errorf("user_date_parse_error, user_date=%v, user_parse=%v, error=%v", order.User.Date, BF_TIME_PARSE, err)
+		log.Printf("bf_user_date_parse_error, order=%v, user_parse=%v, error=%v", order, BF_TIME_PARSE, err)
 		return Discount{}
 	}
 
@@ -55,7 +57,7 @@ func BlackFridayPromotion(order Order) Discount {
 func BirthDayPromotion(order Order) Discount {
 	UserDate, err := time.Parse(USER_TIME_PARSE, string(order.User.Date))
 	if err != nil {
-		fmt.Errorf("user_date_parse_error, user_date=%v, user_parse=%v, error=%v", order.User.Date, USER_TIME_PARSE, err)
+		log.Printf("cake_day_user_date_parse_error, order=%v, user_parse=%v, error=%v", order, USER_TIME_PARSE, err)
 		return Discount{}
 	}
 
@@ -69,4 +71,35 @@ func BirthDayPromotion(order Order) Discount {
 	}
 
 	return Discount{}
+}
+
+// AllPromotions will handle all Promotionary functions and aggregate
+// all in one struct.
+func AllPromotions() Promotions{
+	return Promotions{
+		Promotion: []Promotionary{
+			BlackFridayPromotion,
+			BirthDayPromotion,
+		},
+	}
+}
+
+func VerifyDiscountsAvalibyToOrder(order Order) []Discount {
+	discounts := []Discount{}
+	promotions := AllPromotions().Promotion
+	dateUser := order.User.Date
+
+	if valid := DateISOIsValid(dateUser); valid == false {
+		log.Printf("date_iso_is_not_valid, order:%v", order)
+		return discounts
+	}
+
+	for _, promotion := range promotions {
+		discount := promotion(order)
+		if discount != (Discount{}) {
+			discounts = append(discounts, discount)
+		}
+	}
+
+	return discounts
 }
