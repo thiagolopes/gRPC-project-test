@@ -2,7 +2,7 @@ package promotion
 
 import "testing"
 
-func TestIsValidDateISO(t *testing.T) {
+func TestDateISOIsValid(t *testing.T) {
 	dates := []struct {
 		dateISO            DateISO
 		expectedValidation bool
@@ -14,7 +14,7 @@ func TestIsValidDateISO(t *testing.T) {
 	}
 
 	for _, date := range dates {
-		valid := IsValid(date.dateISO)
+		valid := DateISOIsValid(date.dateISO)
 
 		if valid != date.expectedValidation {
 			t.Errorf("IsValid of %v is=%v, expected=%v", date.dateISO, valid, date.expectedValidation)
