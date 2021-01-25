@@ -32,13 +32,13 @@ func BlackFridayPromotion(order Order) Discount {
 	BFDate, err := time.Parse(BF_TIME_PARSE, fmt.Sprint(BF_MOUTH, "-", BF_DAY))
 	if err != nil {
 		fmt.Errorf("bf_date_parse_error, bf_date=%v, bf_parse=%v, error=%v", fmt.Sprint(BF_MOUTH, "-", BF_DAY), BF_TIME_PARSE, err)
-		return Discount{Description: "bf_promotion_date_parse_error"}
+		return Discount{}
 	}
 
 	UserDate, err := time.Parse(USER_TIME_PARSE, string(order.User.Date))
 	if err != nil {
 		fmt.Errorf("user_date_parse_error, user_date=%v, user_parse=%v, error=%v", order.User.Date, BF_TIME_PARSE, err)
-		return Discount{Description: "bf_promotion_user_date_parse_error"}
+		return Discount{}
 	}
 
 	if isEqual(UserDate, BFDate, BF_TIME_PARSE) == true {
@@ -55,7 +55,7 @@ func BirthDayPromotion(order Order) Discount {
 	UserDate, err := time.Parse(USER_TIME_PARSE, string(order.User.Date))
 	if err != nil {
 		fmt.Errorf("user_date_parse_error, user_date=%v, user_parse=%v, error=%v", order.User.Date, USER_TIME_PARSE, err)
-		return Discount{Description: "birth_day_promotion_user_date_parse_error"}
+		return Discount{}
 	}
 
 	Today := time.Now().UTC()

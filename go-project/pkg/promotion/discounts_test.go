@@ -25,7 +25,7 @@ func TestBlackFridayPromotion(t *testing.T) {
 	}{
 		{
 			Order:            Order{User: User{Date: "invalid"}},
-			ExpectedDiscount: Discount{Description: "bf_promotion_user_date_parse_error"},
+			ExpectedDiscount: Discount{},
 		},
 		{
 			Order: Order{User: User{Date: "1995-11-25"}},
@@ -59,7 +59,7 @@ func TestBirthDayPromotion(t *testing.T) {
 	}{
 		{
 			Order:            Order{User: User{Date: "invalid"}},
-			ExpectedDiscount: Discount{Description: "birth_day_promotion_user_date_parse_error"},
+			ExpectedDiscount: Discount{},
 		},
 		{
 			Order: Order{User: User{Date: DateISO(Today)}},
