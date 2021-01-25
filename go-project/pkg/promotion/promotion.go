@@ -1,10 +1,7 @@
 package promotion
 
 import (
-	"fmt"
 	"time"
-
-	"google.golang.org/grpc/credentials/sts"
 )
 
 const layoutISO = "2006-01-02"
@@ -26,7 +23,7 @@ type Order struct {
 
 // Discount struct, than represent a Discount avalibe to be
 type Discount struct {
-	Percentage float32
+	Percentage  float32
 	Description string
 }
 
@@ -39,7 +36,7 @@ func DateISOIsValid(date DateISO) bool {
 	return true
 }
 
-func DiscountsAvailable(order Order) []Discount{
+func DiscountsAvailable(order Order) []Discount {
 	dateUser := order.User.Date
 	discounts := []Discount{}
 	promotions := []Promotions{}
@@ -49,6 +46,5 @@ func DiscountsAvailable(order Order) []Discount{
 	}
 
 	for promotion := range promotions {
-		promotion()
 	}
 }
