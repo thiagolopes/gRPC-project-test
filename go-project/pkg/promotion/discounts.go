@@ -75,7 +75,7 @@ func BirthDayPromotion(order Order) Discount {
 
 // AllPromotions will handle all Promotionary functions and aggregate
 // all in one struct.
-func AllPromotions() Promotions{
+func AllPromotions() Promotions {
 	return Promotions{
 		Promotion: []Promotionary{
 			BlackFridayPromotion,

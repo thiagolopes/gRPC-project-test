@@ -13,7 +13,6 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-
 func TestIsEqual(t *testing.T) {
 	Today := time.Now().UTC()
 	Yesterday := time.Now().Add(-24 * time.Hour)
@@ -93,7 +92,7 @@ func TestBirthDayPromotion(t *testing.T) {
 }
 
 func TestAllPromotions(t *testing.T) {
-	ExpectedLenPromotions := 2;
+	ExpectedLenPromotions := 2
 
 	promotions := AllPromotions()
 	if len(promotions.Promotion) != ExpectedLenPromotions {
