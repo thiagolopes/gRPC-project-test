@@ -7,7 +7,7 @@ import (
 
 // TODO add in settings
 const (
-	BF_DAY                 = "26"
+	BF_DAY                 = "25"
 	BF_MOUTH               = "11"
 	BF_TIME_PARSE          = "01-02"
 	BF_PERCENTAGE_DISCOUNT = 0.10
