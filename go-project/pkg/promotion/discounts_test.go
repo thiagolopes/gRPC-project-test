@@ -91,3 +91,12 @@ func TestBirthDayPromotion(t *testing.T) {
 		}
 	}
 }
+
+func TestAllPromotions(t *testing.T) {
+	ExpectedLenPromotions := 2;
+
+	promotions := AllPromotions()
+	if len(promotions.Promotion) != ExpectedLenPromotions {
+		t.Errorf("AllPromotions, len=%v, expected_len=%v", len(promotions.Promotion), ExpectedLenPromotions)
+	}
+}
