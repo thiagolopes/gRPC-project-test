@@ -51,6 +51,7 @@ func BlackFridayPromotion(order Order) Discount {
 	return Discount{}
 }
 
+// BirthDayPromotion is the function that describe the discount in user b-day
 func BirthDayPromotion(order Order) Discount {
 	UserDate, err := time.Parse(USER_TIME_PARSE, string(order.User.Date))
 	if err != nil {
