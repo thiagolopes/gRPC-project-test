@@ -4,7 +4,8 @@ import (
 	"time"
 )
 
-const layoutISO = "2006-01-02"
+// ISO Layout to time.TIME
+const ISO_LAYOUT = "2006-01-02"
 
 // DateISO is the date in ISO 8601
 type DateISO string
@@ -28,23 +29,10 @@ type Discount struct {
 }
 
 func DateISOIsValid(date DateISO) bool {
-	_, err := time.Parse(layoutISO, string(date))
+	_, err := time.Parse(ISO_LAYOUT, string(date))
 
 	if err != nil {
 		return false
 	}
 	return true
-}
-
-func DiscountsAvailable(order Order) []Discount {
-	dateUser := order.User.Date
-	discounts := []Discount{}
-	promotions := []Promotions{}
-
-	if valid := DateISOIsValid(dateUser); valid == false {
-		return discounts
-	}
-
-	for promotion := range promotions {
-	}
 }
