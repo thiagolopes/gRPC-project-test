@@ -1,6 +1,7 @@
 GOCMD=go
 GOMOD=$(GOCMD) mod
 GOGET=$(GOCMD) get
+GOTEST=$(GOCMD) test
 GOBUILD=$(GOCMD) build
 BINARY_DIR=bin
 BIN_NAME=promotion
@@ -35,5 +36,7 @@ imports:
 fmt:
 	go fmt ./...
 
-all:
-	imports fmt lint errors build
+test:
+	$(GOTEST) -v ./...
+
+all: imports fmt lint errors build
