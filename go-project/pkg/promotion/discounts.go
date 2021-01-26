@@ -78,9 +78,8 @@ func AllPromotions() Promotions {
 	}
 }
 
-func VerifyDiscountsAvalibeToOrder(order Order) []Discount {
+func VerifyDiscountsAvalibeToOrder(order Order, promotions []Promotionary) []Discount {
 	discounts := []Discount{}
-	promotions := AllPromotions().Promotion
 	dateUser := order.User.Date
 
 	if valid := DateISOIsValid(dateUser); valid == false {
