@@ -67,9 +67,9 @@ func BirthDayPromotion(order Order) Discount {
 	return Discount{}
 }
 
-// AllPromotions will handle all Promotionary functions and aggregate
+// AllPromotionsAvalibe will handle all Promotionary functions and aggregate
 // all in one struct.
-func AllPromotions() []Promotionary {
+func AllPromotionsAvalibe() []Promotionary {
 	return []Promotionary{
 		BlackFridayPromotion,
 		BirthDayPromotion,
