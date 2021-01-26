@@ -11,13 +11,8 @@ const (
 )
 
 type (
-	// Describe a Promotionary
+	// Promotionary represente a promotion
 	Promotionary func(Order) Discount
-
-	// Promotions represente all promotions avalibe to be apply in orders
-	Promotions struct {
-		Promotion []Promotionary
-	}
 
 	// DateISO is the date in ISO 8601
 	DateISO string
