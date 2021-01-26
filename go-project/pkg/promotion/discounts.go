@@ -6,21 +6,6 @@ import (
 	"time"
 )
 
-const (
-	BF_DAY                        = "25"
-	BF_MOUTH                      = "11"
-	BF_TIME_PARSE                 = "01-02"
-	BF_PERCENTAGE_DISCOUNT        = 0.10
-	BIRTH_DAY_PERCENTAGE_DISCOUNT = 0.05
-	USER_TIME_PARSE               = "2006-01-02"
-)
-
-type Promotionary func(Order) Discount
-
-type Promotions struct {
-	Promotion []Promotionary
-}
-
 func isEqual(t1, t2 time.Time, parse string) bool {
 	if t1.Format(parse) == t2.Format(parse) {
 		return true
@@ -28,12 +13,21 @@ func isEqual(t1, t2 time.Time, parse string) bool {
 	return false
 }
 
+func DateISOIsValid(date DateISO) bool {
+	_, err := time.Parse(ISO_LAYOUT, string(date))
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
 // BlackFridayPromotion is the function that describe the discounts in
 // black friday day
 func BlackFridayPromotion(order Order) Discount {
-	BFDate, err := time.Parse(BF_TIME_PARSE, fmt.Sprint(BF_MOUTH, "-", BF_DAY))
+	BFDate, err := time.Parse(BF_TIME_PARSE, fmt.Sprint(BF_MONTH, "-", BF_DAY))
 	if err != nil {
-		log.Printf("bf_date_parse_error, bf_date=%v, bf_parse=%v, error=%v", fmt.Sprint(BF_MOUTH, "-", BF_DAY), BF_TIME_PARSE, err)
+		log.Printf("bf_date_parse_error, bf_date=%v, bf_parse=%v, error=%v", fmt.Sprint(BF_MONTH, "-", BF_DAY), BF_TIME_PARSE, err)
 		return Discount{}
 	}
 
