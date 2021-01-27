@@ -119,3 +119,30 @@ func TestDateISOIsValid(t *testing.T) {
 		}
 	}
 }
+
+func TestVerifyDiscountsAvalibeToOrder(t *testing.T) {
+	fake_promotions := []Promotionary{
+		func(o Order) (d Discount) {
+			return Discount{Percentage: 50.0, Description: "promotion one"}
+		},
+		func(o Order) (d Discount) {
+			return Discount{Percentage: 0.1, Description: "promotion two"}
+		},
+		func(o Order) (d Discount) {
+			return Discount{}
+		},
+	}
+	fake_order := Order{User: User{Date: "2000-12-23"}}
+	expected_discounts := []Discount{
+		{Percentage: 50.0, Description: "promotion one"},
+		{Percentage: 0.1, Description: "promotion two"},
+	}
+
+	discounts := VerifyDiscountsAvalibeToOrder(fake_order, fake_promotions)
+
+	for i, discount := range discounts {
+		if expected_discounts[i] != discount {
+			t.Errorf("VerifyDiscountsAvalibeToOrder is=%v, expected=%v", discount, expected_discounts[i])
+		}
+	}
+}
