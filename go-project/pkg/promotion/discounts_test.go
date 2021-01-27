@@ -120,7 +120,7 @@ func TestDateISOIsValid(t *testing.T) {
 	}
 }
 
-func TestVerifyDiscountsAvalibeToOrder(t *testing.T) {
+func TestVerifyDiscountsAvalibe(t *testing.T) {
 	fake_promotions := []Promotionary{
 		func(o Order) (d Discount) {
 			return Discount{Percentage: 50.0, Description: "promotion one"}
@@ -138,7 +138,7 @@ func TestVerifyDiscountsAvalibeToOrder(t *testing.T) {
 		{Percentage: 0.1, Description: "promotion two"},
 	}
 
-	discounts := VerifyDiscountsAvalibeToOrder(fake_order, fake_promotions)
+	discounts := VerifyDiscountsAvalibe(fake_order, fake_promotions)
 
 	for i, discount := range discounts {
 		if expected_discounts[i] != discount {

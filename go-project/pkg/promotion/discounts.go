@@ -76,7 +76,7 @@ func AllPromotionsAvalibe() []Promotionary {
 	}
 }
 
-func VerifyDiscountsAvalibeToOrder(order Order, promotions []Promotionary) []Discount {
+func VerifyDiscountsAvalibe(order Order, promotions []Promotionary) []Discount {
 	discounts := []Discount{}
 	dateUser := order.User.Date
 
