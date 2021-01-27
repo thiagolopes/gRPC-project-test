@@ -91,10 +91,10 @@ func TestBirthDayPromotion(t *testing.T) {
 	}
 }
 
-func TestAllPromotions(t *testing.T) {
+func TestAllPromotionsAvalibe(t *testing.T) {
 	ExpectedLenPromotions := 2
 
-	promotions := AllPromotions()
+	promotions := AllPromotionsAvalibe()
 	if len(promotions) != ExpectedLenPromotions {
 		t.Errorf("AllPromotions, len=%v, expected_len=%v", len(promotions), ExpectedLenPromotions)
 	}
