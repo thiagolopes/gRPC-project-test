@@ -1,9 +1,19 @@
 import logging
 
 import grpc
+import functools
 from django.conf import settings
+from google.protobuf.json_format import MessageToDict
+
 
 logger = logging.getLogger(__name__)
+
+
+def proto2dict(f):
+    @functools.wraps(f)
+    def wrap(*args, **kwargs):
+        return MessageToDict(f(*args, **kwargs))
+    return wrap
 
 
 class BaseStub:
