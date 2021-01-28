@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import promotion_pb2 as promotion__pb2
+import apps.stubs.promotion_pb2 as promotion__pb2
 
 
 class DiscountServiceStub(object):
