@@ -29,6 +29,13 @@ class DiscountsSerializer:
         if not self.discounts:
             self.discounts = []
 
+    def _base_payload(self, percentage, amount, description):
+        return {
+            "percentage": percentage,
+            "amount": amount,
+            "description": description,
+        }
+
     def _amount(self, discount):
         return self.price * ftod(discount)
 
@@ -45,21 +52,18 @@ class DiscountsSerializer:
         discounts = self.discounts
 
         data = [
-            {"percentage": ftod(d["percentage"]),
-             "amount": self._amount(d["percentage"]),
-             "description": d["discountName"]}
+            self._base_payload(ftod(d["percentage"]), self._amount(d["percentage"]), d["discountName"])
             for d in discounts
         ]
 
         if self.overflow_discount_percentage:
             data.append(
-                {
-                    "percentage": self.overflow_discount_percentage,
-                    "amount": self._amount(self.overflow_discount_percentage),
-                    "description": "Value maximum discount reaching",
-                }
+                self._base_payload(
+                    self.overflow_discount_percentage,
+                    self._amount(self.overflow_discount_percentage),
+                    "Value maximum discount reaching",
+                )
             )
-
         return data
 
 
