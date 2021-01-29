@@ -1,32 +1,42 @@
 import uuid
+from decimal import Decimal
 from unittest.mock import Mock
 
 import pytest
 
-from apps.products.serializers import DiscountSerializer, ProductDiscoutSerializer, ProductSerializer
+from apps.products.serializers import DiscountsSerializer, ProductDiscoutSerializer, ProductSerializer
 
 pytestmark = pytest.mark.django_db
 
 
-@pytest.mark.parametrize(
-    "data, expected",
-    [
-        [{"percentage": 40.0, "discount": 10.0}, {"percentage": 40.0, "discount": 10.0}],
-        [{}, {"percentage": 0, "discount": 0}],
-    ],
-)
-def test_discount_serializer(data, expected):
-    discount = DiscountSerializer(data=data)
+def test_discount_serializer_empty():
+    discount = DiscountsSerializer([], 100)
 
-    assert discount.is_valid() is True
-    assert discount.data == expected
+    assert discount.validated_data == []
 
 
-def test_discount_serializer_less_zero():
-    discount = DiscountSerializer(data={"percentage": -10, "discount": -1})
+def test_discount_serializer_with_discounts(discounts_data):
+    discount = DiscountsSerializer(discounts_data, 100)
 
-    assert discount.is_valid() is False
-    assert discount.errors["percentage"][0] == "Ensure this value is greater than or equal to 0."
+    assert discount.validated_data == [
+        {"amount": Decimal("10.0"), "percentage": Decimal("0.1")},
+        {"amount": Decimal("5.0"), "percentage": Decimal("0.05")},
+    ]
+
+
+def test_discount_serializer_with_discounts_and_max_discount(discounts_data):
+    discount = DiscountsSerializer(discounts_data, 100, 0.05)
+
+    assert discount.validated_data == [
+        {"amount": Decimal("10.0"), "percentage": Decimal("0.1")},
+        {"amount": Decimal("5.0"), "percentage": Decimal("0.05")},
+        {"amount": Decimal("-10.00"), "percentage": Decimal("-0.10")},
+    ]
+
+
+def test_discount_serializer_overflow_discount_percentage(discounts_data):
+    discount = DiscountsSerializer(discounts_data, 100, 0.05)
+    assert discount.overflow_discount_percentage == Decimal("-0.10")
 
 
 def test_product_serializer(product_data):
@@ -36,18 +46,22 @@ def test_product_serializer(product_data):
     assert product.data == product_data
 
 
-def test_product_with_discount_serializer(product_data):
+def test_product_with_discount_serializer_without_discount(product_data):
     stub_mock, request_mock = Mock(), Mock()
+    stub_mock.AvailableDiscounts.return_value = {}
+
     product_discount = ProductDiscoutSerializer(data=product_data, context={"request": request_mock})
     product_discount.discount_stub_class = stub_mock
 
     assert product_discount.is_valid() is True
+    product_discount.save()
     assert product_discount.data == {
+        "id": product_discount.data["id"],
         "title": "Car Toy",
         "description": "Is a toy",
         "price": "500.00",
+        "discounts": [],
         "currency": "BRL",
-        "discount": {"percentage": 0, "discount": 0},
     }
     request_mock.user.birth_date.isoformat.assert_called()
     stub_mock.AvailableDiscounts.assert_called()
