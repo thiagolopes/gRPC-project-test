@@ -3,6 +3,8 @@ package promotion
 import (
 	"context"
 	"log"
+
+	"github.com/thiagolopes/gRPC-project-test/go-project/pkg/promotion"
 )
 
 type Server struct {
