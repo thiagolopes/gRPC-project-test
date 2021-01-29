@@ -57,7 +57,7 @@ func BirthDayPromotion(order Order) Discount {
 
 	Today := time.Now().UTC()
 
-	if isEqual(UserDate, Today, BF_TIME_PARSE) {
+	if isEqual(UserDate, Today, BF_TIME_PARSE) == true {
 		return Discount{
 			Percentage:  BIRTH_DAY_PERCENTAGE_DISCOUNT,
 			Description: "Cake day promotion",
