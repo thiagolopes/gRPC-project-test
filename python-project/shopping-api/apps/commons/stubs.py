@@ -1,10 +1,9 @@
+import functools
 import logging
 
 import grpc
-import functools
 from django.conf import settings
 from google.protobuf.json_format import MessageToDict
-
 
 logger = logging.getLogger(__name__)
 
