@@ -13,9 +13,46 @@ PRODUCT_FIELDS = (
 )
 
 
-class DiscountSerializer(serializers.Serializer):
-    percentage = serializers.FloatField(min_value=0, max_value=100, default=0.0)
-    discount = serializers.FloatField(min_value=0, default=0.0)
+class DiscountsSerializer:
+    def __init__(self, discounts, price, max_discount_percentage=None):
+        self.discounts = discounts
+        self.price = price
+        self.max_discount_percentage = max_discount_percentage
+
+        if self.max_discount_percentage is not None:
+            self.max_discount_percentage = Decimal(str(max_discount_percentage))
+
+        if not self.discounts:
+            self.discounts = []
+
+    def _amount(self, discount):
+        return self.price * ftod(discount)
+
+    @cached_property
+    def overflow_discount_percentage(self):
+        if self.max_discount_percentage is not None:
+            s = sum(ftod(d["percentage"]) for d in self.discounts)
+            if s > self.max_discount_percentage:
+                return self.max_discount_percentage - s
+        return 0
+
+    @property
+    def validated_data(self):
+        discounts = self.discounts
+
+        data = [
+            {"percentage": ftod(d["percentage"]), "amount": self._amount(d["percentage"])} for d in discounts
+        ]
+
+        if self.overflow_discount_percentage:
+            data.append(
+                {
+                    "percentage": self.overflow_discount_percentage,
+                    "amount": self._amount(self.overflow_discount_percentage),
+                }
+            )
+
+        return data
 
 
 class ProductSerializer(serializers.ModelSerializer):
