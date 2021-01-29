@@ -45,7 +45,10 @@ class DiscountsSerializer:
         discounts = self.discounts
 
         data = [
-            {"percentage": ftod(d["percentage"]), "amount": self._amount(d["percentage"])} for d in discounts
+            {"percentage": ftod(d["percentage"]),
+             "amount": self._amount(d["percentage"]),
+             "description": d["discountName"]}
+            for d in discounts
         ]
 
         if self.overflow_discount_percentage:
@@ -53,6 +56,7 @@ class DiscountsSerializer:
                 {
                     "percentage": self.overflow_discount_percentage,
                     "amount": self._amount(self.overflow_discount_percentage),
+                    "description": "Value maximum discount reaching",
                 }
             )
 

@@ -28,7 +28,7 @@ def test_product_fetch_authenticated(client):
 
     assert req.status_code == status.HTTP_200_OK
     assert req.data["id"] == str(product.pk)
-    assert "discount" in req.data
+    assert "discounts" in req.data
 
 
 def test_product_fetch_unauthenticated(client_not_authenticated):
@@ -38,7 +38,7 @@ def test_product_fetch_unauthenticated(client_not_authenticated):
 
     assert req.status_code == status.HTTP_200_OK
     assert req.data["id"] == str(product.pk)
-    assert "discount" not in req.data
+    assert "discounts" not in req.data
 
 
 def test_product_create(client, product_data):

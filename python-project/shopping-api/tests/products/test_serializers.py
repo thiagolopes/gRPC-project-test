@@ -19,8 +19,8 @@ def test_discount_serializer_with_discounts(discounts_data):
     discount = DiscountsSerializer(discounts_data, 100)
 
     assert discount.validated_data == [
-        {"amount": Decimal("10.0"), "percentage": Decimal("0.1")},
-        {"amount": Decimal("5.0"), "percentage": Decimal("0.05")},
+        {"amount": Decimal("10.0"), "percentage": Decimal("0.1"), "description": "discount one"},
+        {"amount": Decimal("5.0"), "percentage": Decimal("0.05"), "description": "discount two"},
     ]
 
 
@@ -28,9 +28,9 @@ def test_discount_serializer_with_discounts_and_max_discount(discounts_data):
     discount = DiscountsSerializer(discounts_data, 100, 0.05)
 
     assert discount.validated_data == [
-        {"amount": Decimal("10.0"), "percentage": Decimal("0.1")},
-        {"amount": Decimal("5.0"), "percentage": Decimal("0.05")},
-        {"amount": Decimal("-10.00"), "percentage": Decimal("-0.10")},
+        {"amount": Decimal("10.00"), "percentage": Decimal("0.1"), "description": "discount one"},
+        {"amount": Decimal("5.00"), "percentage": Decimal("0.05"), "description": "discount two"},
+        {"amount": Decimal("-10.00"), "percentage": Decimal("-0.10"), "description": "Value maximum discount reaching"},
     ]
 
 
