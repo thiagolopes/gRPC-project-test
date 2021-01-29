@@ -17,3 +17,11 @@ def client():
 @pytest.fixture
 def client_not_authenticated():
     return APIClient()
+
+
+@pytest.fixture
+def discounts_data():
+    return [
+        {"percentage": 0.1, "description": "discount one"},
+        {"percentage": 0.05, "description": "discount two"},
+    ]
