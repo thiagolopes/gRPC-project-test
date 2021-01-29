@@ -76,6 +76,8 @@ func AllPromotionsAvalibe() []Promotionary {
 	}
 }
 
+// VerifyDiscountsAvalibe will apply all promotionarys in the order,
+// and return all discounts applicable
 func VerifyDiscountsAvalibe(order Order, promotions []Promotionary) []Discount {
 	discounts := []Discount{}
 	dateUser := order.User.Date
