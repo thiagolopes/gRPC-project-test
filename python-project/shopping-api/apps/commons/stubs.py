@@ -12,6 +12,7 @@ def proto2dict(f):
     @functools.wraps(f)
     def wrap(*args, **kwargs):
         return MessageToDict(f(*args, **kwargs))
+
     return wrap
 
 
