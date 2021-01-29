@@ -22,6 +22,6 @@ def client_not_authenticated():
 @pytest.fixture
 def discounts_data():
     return [
-        {"percentage": 0.1, "description": "discount one"},
-        {"percentage": 0.05, "description": "discount two"},
+        {"percentage": 0.1, "discountName": "discount one"},
+        {"percentage": 0.05, "discountName": "discount two"},
     ]

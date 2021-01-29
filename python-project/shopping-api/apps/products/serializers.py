@@ -1,8 +1,8 @@
 from decimal import Decimal
 
+from django.conf import settings
 from django.utils.functional import cached_property
 from rest_framework import serializers
-from django.conf import settings
 
 from apps.commons.utils import ftod
 from apps.products.models import ProductModel
