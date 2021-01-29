@@ -1,6 +1,9 @@
+from decimal import Decimal
+
 from django.utils.functional import cached_property
 from rest_framework import serializers
 
+from apps.commons.utils import ftod
 from apps.products.models import ProductModel
 from apps.stubs.promotion import discount_stub
 
@@ -65,23 +68,23 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductDiscoutSerializer(serializers.ModelSerializer):
-    discount = serializers.SerializerMethodField()
+    discounts = serializers.SerializerMethodField()
     discount_stub_class = discount_stub
 
     class Meta:
         model = ProductModel
-        fields = PRODUCT_FIELDS + ("discount",)
+        fields = PRODUCT_FIELDS + ("discounts",)
         read_only_fields = [
             "id",
         ]
 
     @cached_property
-    def promotions_avalibe(self):
+    def promotions_avalible(self):
         date = self.context["request"].user.birth_date.isoformat()
         return self.discount_stub_class.AvailableDiscounts(date)
 
-    def get_discount(self, obj):
-        promotions = self.promotions_avalibe
-        discount = DiscountSerializer(data={})
-        discount.is_valid()
-        return discount.validated_data
+    def get_discounts(self, obj):
+        # TODO add overflow setting
+        discounts_data = self.promotions_avalible.get("discounts", None)
+        discounts = DiscountsSerializer(discounts_data, obj.price)
+        return discounts.validated_data
