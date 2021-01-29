@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.utils.functional import cached_property
 from rest_framework import serializers
+from django.conf import settings
 
 from apps.commons.utils import ftod
 from apps.products.models import ProductModel
@@ -84,7 +85,6 @@ class ProductDiscoutSerializer(serializers.ModelSerializer):
         return self.discount_stub_class.AvailableDiscounts(date)
 
     def get_discounts(self, obj):
-        # TODO add overflow setting
         discounts_data = self.promotions_avalible.get("discounts", None)
-        discounts = DiscountsSerializer(discounts_data, obj.price)
+        discounts = DiscountsSerializer(discounts_data, obj.price, settings.MAX_DISCOUNT_PERCENTAGE_ALLOWED)
         return discounts.validated_data
