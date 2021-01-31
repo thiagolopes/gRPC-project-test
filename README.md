@@ -15,7 +15,7 @@ This project is responsible for serve a RESTful API with a product resource, thi
 To run this project you will need installed:
 - python 3.8.5 or higher
 - poetry
-- and any SGDB to use in API
+- and any SGDB to use in API, tested with PostgresSQL 13.1 and SQLite 3.34
 
 Follow steps:
 - `make install-deps` to install all dependencies
