@@ -1,5 +1,7 @@
+import logging
 from decimal import Decimal
 
+import grpc
 from django.conf import settings
 from django.utils.functional import cached_property
 from rest_framework import serializers
@@ -7,6 +9,8 @@ from rest_framework import serializers
 from apps.commons.utils import ftod
 from apps.products.models import ProductModel
 from apps.stubs.promotion import discount_stub
+
+logger = logging.getLogger(__name__)
 
 PRODUCT_FIELDS = (
     "id",
@@ -93,6 +97,11 @@ class ProductDiscoutSerializer(serializers.ModelSerializer):
         return self.discount_stub_class.AvailableDiscounts(date)
 
     def get_discounts(self, obj):
-        discounts_data = self.promotions_avalible.get("discounts", None)
+        try:
+            discounts_data = self.promotions_avalible.get("discounts", None)
+        except grpc.RpcError as err:
+            logger.warning("grpc_discount_calls_error: err=%s", err)
+            discounts_data = None
+
         discounts = DiscountsSerializer(discounts_data, obj.price, settings.MAX_DISCOUNT_PERCENTAGE_ALLOWED)
         return discounts.validated_data
