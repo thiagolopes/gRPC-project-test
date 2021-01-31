@@ -3,6 +3,11 @@
 ## About
 This project implement two microservices that together powers an web page that displays a product list with custom discounts per user.
 
+### The protos
+In `/protos` dir you will find all the .protos used in this project together with the gRPC calls descriptions.
+
+To update gRPC generated code or protobuf structs use `make generate-promotion` to run the gRPC generations tools
+
 ### The Python project
 This project is responsible for serve a RESTful API with a product resource, this resource will show the discounts available per user based on gRPC call to a "discount API" and apply any rules to them
 
