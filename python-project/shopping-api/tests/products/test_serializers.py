@@ -2,6 +2,7 @@ import uuid
 from decimal import Decimal
 from unittest.mock import Mock
 
+import grpc
 import pytest
 
 from apps.products.serializers import DiscountsSerializer, ProductDiscoutSerializer, ProductSerializer
@@ -69,3 +70,25 @@ def test_product_with_discount_serializer_without_discount(product_data):
     }
     request_mock.user.birth_date.isoformat.assert_called()
     stub_mock.AvailableDiscounts.assert_called()
+
+
+def test_product_with_discount_serializer_without_grpc_error(product_data, caplog):
+    stub_mock, request_mock = Mock(), Mock()
+    stub_mock.AvailableDiscounts.side_effect = grpc.RpcError
+
+    product_discount = ProductDiscoutSerializer(data=product_data, context={"request": request_mock})
+    product_discount.discount_stub_class = stub_mock
+
+    assert product_discount.is_valid() is True
+    product_discount.save()
+    assert product_discount.data == {
+        "id": product_discount.data["id"],
+        "title": "Car Toy",
+        "description": "Is a toy",
+        "price": "500.00",
+        "discounts": [],
+        "currency": "BRL",
+    }
+    request_mock.user.birth_date.isoformat.assert_called()
+    stub_mock.AvailableDiscounts.assert_called()
+    assert "grpc_discount_calls_error" in caplog.text
