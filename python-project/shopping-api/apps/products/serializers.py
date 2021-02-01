@@ -65,7 +65,7 @@ class DiscountsSerializer:
                 self._base_payload(
                     self.overflow_discount_percentage,
                     self._amount(self.overflow_discount_percentage),
-                    "Value maximum discount reaching",
+                    "Maximum discount value reached",
                 )
             )
         return data
