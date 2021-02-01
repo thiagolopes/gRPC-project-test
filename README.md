@@ -33,7 +33,7 @@ The project has one resource: `/v1/products` to access all products, the payload
   - After that you will recive a response with the token and you can be able to use in `Authorization` header with value `Token XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 
 ### The Go project
-This project is a gRPC server, then applies a series of discounts to an order.
+This project is a gRPC server, thats applies a series of discounts to an order.
 
 #### Setup
 To run this project you will need installed:
