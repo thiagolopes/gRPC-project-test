@@ -21,16 +21,16 @@ Follow steps:
 - `make install-deps` to install all dependencies
 - `cp local.env .env`, and update the variables with your settings
 - `make migrate` to apply the migrations in database
-- Create a user:
-  - You can use `make create-user` or use `/admin` to access the admin page with superuser
-- To generate a api token you need generate in `/api-auth` with a payload: `{"username": X, "password": Y}`
-  - After that you will recive the token and can be able to use in `Authorization` header with value `Token XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 
 Finally, to run: `make run`
 
 #### Docs:
 The project has one resource: `/v1/products` to access all products, the payload will show the discounts avalible if the request has a `Authorization`
 
+- Create a user:
+  - You can use `make create-user` or use `/admin` to access the admin page with superuser
+- To generate an api token you need *POST* request in `/api-auth` with a payload: `{"username": X, "password": Y}`
+  - After that you will recive a response with the token and you can be able to use in `Authorization` header with value `Token XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 
 ### The Go project
 This project is a gRPC server, then applies a series of discounts to an order.
